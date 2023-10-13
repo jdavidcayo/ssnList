@@ -1,0 +1,28 @@
+{
+  "name": "ssnlist",
+  "version": "1.0.0",
+  "description": "Brokers scrapping from SSN.gob.ar",
+  "type": "module",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "run": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "semistandard": "^17.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "semistandard"
+    ]
+  },
+  "dependencies": {
+    "node-schedule": "^2.1.1",
+    "nodemailer": "^6.9.6",
+    "puppeteer": "^21.3.4",
+    "xlsx-populate": "^1.21.0"
+  }
+}
