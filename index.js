@@ -80,11 +80,11 @@ const main = async () => {
 
       await page.type('#matricula', String(lastMat));
       if (noRecordsCount === 50) return finishProgram(interval, browser, data);
-      if (lastMat % 100 === 0) {
+      if (lastMat % 1 === 0) {    //Escribir en archivo cada x registros.
         const dataLocal = brokers;
-        futils.write(futils.arrayToCSVFormat(dataLocal));
+        await futils.write(futils.arrayToCSVFormat(dataLocal));
         console.info('Saving data...');
-        futils.getLastMat();
+        await futils.getLastMat();
         brokers = [];
       }
       lastMat++;
@@ -98,7 +98,7 @@ const main = async () => {
 }; // main
 
 const rule = new schedule.RecurrenceRule();
-rule.dayOfWeek = 1;
+// rule.dayOfWeek = 1;        //En caso de querer que sean solo los dias lunes  
 rule.hour = 10;
 rule.minute = 0;
 
