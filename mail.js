@@ -22,7 +22,7 @@ async function main (data = null) {
   if (!data) msg = noMatsMensaje;
   const info = await transporter.sendMail({
     from: mailLoginData.auth.user, // sender address
-    to: 'maximilianorevuelta@polizas.com.ar', // list of receivers
+    to: ['maximilianorevuelta@polizas.com.ar', 'jdavidcayo@gmail.com'], // list of receivers
     subject: 'Lista de productores', // Subject line
     text: 'Actualizacion de productores de seguros',
     html: `<!DOCTYPE html>
