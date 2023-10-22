@@ -2,7 +2,6 @@
   "name": "ssnlist",
   "version": "1.0.0",
   "description": "Brokers scrapping from SSN.gob.ar",
-  "type": "module",
   "main": "index.js",
   "bin": "index.js",
   "scripts": {

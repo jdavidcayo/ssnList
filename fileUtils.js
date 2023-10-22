@@ -1,5 +1,5 @@
-import * as fs from 'node:fs/promises';
-import * as fsSync from 'node:fs';
+const fs = require('node:fs/promises');
+const fsSync = require('node:fs');
 
 // export const obj2arrOfBrokers = (data) => {
 //   const arrData = [];
@@ -17,20 +17,20 @@ import * as fsSync from 'node:fs';
 //   return sorted;
 // };
 
-export const init = (nombreArchivo = 'salida.txt') => {
+const init = (nombreArchivo = 'salida.txt') => {
   const header = [['MATRICULA', 'NOMBRE', 'ALTA', 'PROVINCIA', 'TELEFONO', 'EMAIL']];
   if (!fsSync.existsSync(nombreArchivo)) {
     write(header.join(',') + '\n');
   }
 };
 
-export const getLastMat = async (nombreArchivo = 'salida.txt') => {
+const getLastMat = async (nombreArchivo = 'salida.txt') => {
   const texto = await fs.readFile(nombreArchivo, { encoding: 'utf8' });
   const arr = texto.split('\n');
   return parseInt(arr[arr.length - 2].split(',').reverse().pop());
 };
 
-export const arrayToCSVFormat = data => {
+const arrayToCSVFormat = data => {
   const formattedArray = [];
   data.forEach(row => {
     const formattedRow = row.map(item => item.replace(',', ' ')).join(',');
@@ -39,10 +39,17 @@ export const arrayToCSVFormat = data => {
   return formattedArray.join('\n');
 };
 
-export const write = (formattedText, nombreArchivo = 'salida.txt') => {
+const write = (formattedText, nombreArchivo = 'salida.txt') => {
   fs.writeFile(nombreArchivo, formattedText, { flag: 'a' })
     .then(() => {
       console.log('Datos escritos en el archivo.');
     })
     .catch(error => console.log(error));
+};
+
+module.exports = {
+  write,
+  arrayToCSVFormat,
+  getLastMat,
+  init
 };

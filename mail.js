@@ -1,5 +1,5 @@
-import * as nodemailer from 'nodemailer';
-import { mailLoginData }from './config.js';
+const nodemailer = require('nodemailer');
+const { mailLoginData } = require('./config.js');
 
 const transporter = nodemailer.createTransport({
   host: mailLoginData.host,
@@ -18,8 +18,18 @@ async function main (data = null) {
   </h3>`;
   const noMatsMensaje = 'No hay nuevas matriculas disponibles.';
 
+  let attachedFile = [
+    {
+      filename: 'listado.csv', // Nombre del archivo adjunto
+      path: './listado.csv' // Ruta del archivo adjunto
+    }
+  ];
+
   let msg = mensaje;
-  if (!data) msg = noMatsMensaje;
+  if (!data) {
+    msg = noMatsMensaje;
+    attachedFile = [];
+  }
   const info = await transporter.sendMail({
     from: mailLoginData.auth.user, // sender address
     to: ['maximilianorevuelta@polizas.com.ar', 'jdavidcayo@gmail.com'], // list of receivers
@@ -44,21 +54,21 @@ async function main (data = null) {
         <h1>Actualización de lista de Productores de seguros.</h1>
         <div class="card">
             ${msg}
-            <h2>Revisa el archivo revisa el archivo principal.</h2>
+            <h2>Revisa el archivo principal.</h2>
         </div>
     </body>
     </html>`,
-    attachments: [
-      {
-        filename: 'listado.csv', // Nombre del archivo adjunto
-        path: './listado.csv' // Ruta del archivo adjunto
-      }
-    ]
+    attachments: attachedFile
   });
 
   console.log('Message sent: %s', info.messageId);
 }
 
-export function sendMail (data = null) {
+function sendMail (data = null) {
   main(data).catch(console.error);
 }
+
+module.exports = {
+  transporter,
+  sendMail
+};

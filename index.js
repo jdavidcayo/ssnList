@@ -1,8 +1,8 @@
-import puppeteer from 'puppeteer';
-import { target } from './config.js';
-import * as futils from './fileUtils.js';
-import { sendMail } from './mail.js';
-import * as schedule from 'node-schedule';
+const puppeteer = require('puppeteer');
+const { target } = require('./config.js');
+const futils = require('./fileUtils.js');
+const { sendMail } = require('./mail.js');
+const schedule = require('node-schedule');
 
 let brokers = [];
 const data = [];
@@ -99,8 +99,8 @@ const main = async () => {
 
 const rule = new schedule.RecurrenceRule();
 // rule.dayOfWeek = 1;        //En caso de querer que sean solo los dias lunes
-rule.hour = 23;
-rule.minute = 14;
+rule.hour = 10;
+rule.minute = 20;
 
 schedule.scheduleJob(rule, function () {
   futils.init('listado.csv');
