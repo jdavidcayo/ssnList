@@ -4,7 +4,7 @@ const futils = require('./fileUtils.js');
 const { sendMail } = require('./mail.js');
 const schedule = require('node-schedule');
 
-let brokers = [];
+const brokers = [];
 const data = [];
 
 const main = async () => {
@@ -97,15 +97,15 @@ const main = async () => {
   }
 }; // main
 
- const rule = new schedule.RecurrenceRule();
+const rule = new schedule.RecurrenceRule();
 // rule.dayOfWeek = 1;        //En caso de querer que sean solo los dias lunes
- rule.hour = 10;
- rule.minute = 0;
+rule.hour = 10;
+rule.minute = 0;
 
 schedule.scheduleJob(rule, function () {
-futils.init('listado.csv');
-main();
- });
+  futils.init('listado.csv');
+  main();
+});
 
 function finishProgram (interval, browser, data) {
   clearInterval(interval);
