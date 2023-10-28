@@ -44,11 +44,11 @@ const main = async () => {
           aux = document.querySelector('div.col-md-8.col-md-offset-2 > h3')?.lastChild?.textContent;
           data.push(aux.replace('/t', '').trim()); // nombre
 
-          aux = document.querySelector('div.row.col-12.alta > div:nth-child(3) > p')?.lastChild?.textContent;
-          data.push(aux.replace('/t', '').trim()); // alta
-
           aux = document.querySelector('div.titulin_panel.col-12 > div > div:nth-child(3) > p')?.lastChild?.textContent;
           data.push(aux.replace('/t', '').trim()); // provincia
+
+          aux = document.querySelector('div.row.col-12.alta > div:nth-child(3) > p')?.lastChild?.textContent;
+          data.push(aux.replace('/t', '').trim()); // alta
 
           aux = document.querySelector('div.titulin_panel.col-12 > div > div:nth-child(5) > p')?.lastChild?.textContent;
           data.push(aux.replace('/t', '').trim()); // telefono
@@ -78,17 +78,17 @@ const main = async () => {
         input.value = '';
       });
 
-      await page.type('#matricula', String(lastMat));
-      if (noRecordsCount === 50) return finishProgram(interval, browser, data);
-      if (lastMat % 1 === 0) { // Escribir en archivo cada x registros.
+      await page.type('#matricula', String(lastMat + 1));
+      if (noRecordsCount === 20) {
         const dataLocal = brokers;
-        await futils.write(futils.arrayToCSVFormat(dataLocal), 'listado.csv');
-        console.info('Saving data...');
-        await futils.getLastMat('listado.csv');
-        brokers = [];
+        if (dataLocal.length !== 0) {
+          await futils.writeBr('listado.csv');
+          await futils.write(futils.arrayToCSVFormat(dataLocal), 'listado.csv');
+          console.info('Saving data...');
+        }
+        return finishProgram(interval, browser, data);
       }
       lastMat++;
-
       await page.click('form > div:nth-child(6) > input');
     }, 1000);
   } catch (error) {
@@ -97,15 +97,15 @@ const main = async () => {
   }
 }; // main
 
-const rule = new schedule.RecurrenceRule();
+ const rule = new schedule.RecurrenceRule();
 // rule.dayOfWeek = 1;        //En caso de querer que sean solo los dias lunes
-rule.hour = 10;
-rule.minute = 20;
+ rule.hour = 10;
+ rule.minute = 0;
 
 schedule.scheduleJob(rule, function () {
-  futils.init('listado.csv');
-  main();
-});
+futils.init('listado.csv');
+main();
+ });
 
 function finishProgram (interval, browser, data) {
   clearInterval(interval);

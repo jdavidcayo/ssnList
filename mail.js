@@ -12,10 +12,7 @@ const transporter = nodemailer.createTransport({
 });
 
 async function main (data = null) {
-  let desde = 0; let cantidad = 0; let hasta = 0;
-  if (data) { desde = data[0][0]; hasta = data[data.length - 1]; cantidad = data.lenght; }
-  const mensaje = `<h3>Desde el <strong id="desde">${desde}</strong> hasta el <strong id="hasta">${hasta}</strong> tienes <strong id="cantidad">${cantidad}</strong> de nuevas matriculas nuevas.
-  </h3>`;
+  const mensaje = '<h3>Tienes matriculas nuevas por ver.</h3>';
   const noMatsMensaje = 'No hay nuevas matriculas disponibles.';
 
   let attachedFile = [
@@ -32,8 +29,8 @@ async function main (data = null) {
   }
   const info = await transporter.sendMail({
     from: mailLoginData.auth.user, // sender address
-    to: ['maximilianorevuelta@polizas.com.ar', 'jdavidcayo@gmail.com'], // list of receivers
-    subject: 'Lista de productores', // Subject line
+    to: ['jdavidcayo@gmail.com'], // list of receivers
+    subject: 'Lista de productores',
     text: 'Actualizacion de productores de seguros',
     html: `<!DOCTYPE html>
     <html lang="es">

@@ -1,22 +1,6 @@
 const fs = require('node:fs/promises');
 const fsSync = require('node:fs');
 
-// export const obj2arrOfBrokers = (data) => {
-//   const arrData = [];
-//   data.forEach(el => arrData.push(Object.values(el)));
-//   return arrData;
-// };
-
-// export const sortBrokersData = (arrOfBrokers) => {
-//   const sorted = [];
-//   arrOfBrokers.forEach((broker) => {
-//     const order = [5, 0, 4, 1, 2, 3]; // El orden deseado
-//     const sortedData = order.map(index => broker[index]);
-//     sorted.push(sortedData);
-//   });
-//   return sorted;
-// };
-
 const init = (nombreArchivo = 'salida.txt') => {
   const header = [['MATRICULA', 'NOMBRE', 'ALTA', 'PROVINCIA', 'TELEFONO', 'EMAIL']];
   if (!fsSync.existsSync(nombreArchivo)) {
@@ -24,6 +8,9 @@ const init = (nombreArchivo = 'salida.txt') => {
   }
 };
 
+const writeBr = async (nombreArchivo = 'salida.txt') => {
+  await fs.writeFile(nombreArchivo, '\n', { flag: 'a' });
+};
 const getLastMat = async (nombreArchivo = 'salida.txt') => {
   const texto = await fs.readFile(nombreArchivo, { encoding: 'utf8' });
   const arr = texto.split('\n');
@@ -51,5 +38,6 @@ module.exports = {
   write,
   arrayToCSVFormat,
   getLastMat,
-  init
+  init,
+  writeBr
 };
